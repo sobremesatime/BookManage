@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jxufe.lyl.mapper.BorrowMapper">
+    <!--增加借阅信息-->
+  <insert id="addBorrow" parameterType="Borrow" useGeneratedKeys="true" keyProperty="borrow_id">
+    insert into borrow(borrow_id,username,bookname, state)
+    VALUES (#{borrow_id}, #{username}, #{bookname}, #{state})
+  </insert>
+    <!--删除借阅信息 -->
+    <delete id="deleteBorrow" parameterType="int">
+        delete from borrow where borrow_id=#{borrow_id}
+    </delete>
+    <!--查询借阅信息-->
+    <select id="queryBorrow" resultType="Borrow">
+        select *
+        from borrow
+    </select>
+</mapper>

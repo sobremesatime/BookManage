@@ -1,0 +1,19 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\main",
+    "\\src\\main\\java",
+    "\\src\\main\\java\\cn",
+    "\\src\\main\\java\\cn\\jxufe",
+    "\\src\\main\\java\\cn\\jxufe\\lyl",
+    "\\src\\main\\java\\cn\\jxufe\\lyl\\controller",
+    "\\src\\main\\resources",
+    "\\src\\main\\webapp",
+    "\\src\\main\\webapp\\static",
+    "\\src\\main\\webapp\\static\\html",
+    "\\src\\main\\webapp\\WEB-INF"
+  ],
+  "SelectedNode": "\\src\\main\\resources\\spring-context.xml",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!-- 1  以下是Spring自身的配置 -->
+	
+	<!-- 打开注解开关 -->
+	<context:annotation-config />
+	<!-- 设置注解扫描的基包 -->
+	<context:component-scan base-package=
+		"cn.jxufe.lyl.mapper, cn.jxufe.lyl.service.impl, cn.jxufe.lyl.controller"/>
+
+	<!-- 2 以下配置是Spring整合mybatis的配置 -->
+	
+	<!-- 2.1 spring抢来的mybatis数据源的配置 -->
+	<!-- 2.1.1 设置连接池配置文件的位置 -->
+	<bean id="propertyPlaceholderConfigurer" 
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- 连接池配置文件位置 -->
+		<property name="locations">
+			<list>
+				<value>classpath:mysql.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 2.1.2 设置连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<!-- 连接参数：驱动 -->
+		<property name="driverClassName" value="${driverClassName}"/>
+		<!-- 连接参数：url -->
+		<property name="url" value="${url}"/>
+		<!-- 连接参数：用户名 -->
+		<property name="username" value="${username}"/>
+		<!-- 连接参数：密码 -->
+		<property name="password" value="${password}"/>
+		<!-- 连接参数：最大连接数 -->
+		<property name="maxTotal" value="${maxActive}"/>
+		<!-- 连接参数：最大空闲数 -->
+		<property name="maxIdle" value="${maxIdle}"/>
+		<!-- 连接参数：最大等待时间 -->
+		<property name="maxWaitMillis" value="${maxWait}"/>
+	</bean>
+	
+	<!-- 2.2 spring抢来的mybatis中生成核心操作对象SqlSession的SqlSessionFactory的Bean的配置 -->
+	<!-- 这里只是配置了SqlSessionFactory，spring会自动获得SqlSession -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- mybatis配置文件位置 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<!-- 数据源，必须引用自上面设置dataSource -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 设置别名的实体类的包 -->
+		<property name="typeAliasesPackage" value="cn.jxufe.lyl.domain"/>
+		<!-- mapper的实现（xml文件）的位置 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+	</bean>
+	
+	<!-- 2.3 配置SqlSession扫描的位置 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- SqlSessionFactoryBeanName，必须是上面设置的sqlSessionFactory -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+		<!-- SqlSession获得Mapper，需要扫描的基包 -->
+		<property name="basePackage" value="cn.jxufe.lyl.mapper"/>
+	</bean>
+	
+</beans>
